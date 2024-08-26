@@ -66,17 +66,31 @@ int Accept(int listenfd, struct sockaddr *clientaddr, socklen_t* clientlen) {
 }
 
 void Read(int fd, void* buf, int size) {
-	if (read(fd, buf, size) < 0) {
-        perror("read error");
-        close(fd);
-        exit(1);
+    int nread;
+    char *bufp = buf;
+
+    while (size > 0) {
+        if ((nread = read(fd, bufp, size)) < 0) {
+            perror("read error");
+			exit(1);
+        } 
+        else if (nread == 0)
+            break;				// EOF
+        size -= nread;
+        bufp += nread;
     }
 }
 
 void Write(int fd, void* buf, int size) {
-	if (write(fd, buf, size) < 0) {
-        perror("write error");
-        close(fd);
-        exit(1);
+    int nwritten;
+    char *bufp = buf;
+	
+    while (size > 0) {
+		if ((nwritten = write(fd, bufp, size)) <= 0) {
+			perror("write error");
+			exit(1);
+		}
+		size -= nwritten;
+		bufp += nwritten;
     }
 }
