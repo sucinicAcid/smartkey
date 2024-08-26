@@ -35,7 +35,14 @@ int main(void) {
         if (frame.can_id == LOCK_DOOR_ID) {
             isDoorLocked = true;
 
-            frame.can_id = POSITEIVE_RESPONSE;
+            frame.can_id = POSITIVE_RESPONSE;
+            frame.can_dlc = 8;
+            memset(frame.data, 0x02, sizeof(frame.data));
+            Write(canfd, &frame, sizeof(frame));
+        } else if (frame.can_id == UNLOCK_DOOR_ID) {
+            isDoorLocked = false;
+
+            frame.can_id = POSITIVE_RESPONSE;
             frame.can_dlc = 8;
             memset(frame.data, 0x02, sizeof(frame.data));
             Write(canfd, &frame, sizeof(frame));

@@ -13,8 +13,9 @@
 #include <linux/can/raw.h>
 
 #define LOCK_DOOR_ID    1
+#define UNLOCK_DOOR_ID  2
 
-#define POSITEIVE_RESPONSE -1
+#define POSITIVE_RESPONSE 100
 
 int getCANfd(void);
 

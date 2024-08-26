@@ -44,6 +44,10 @@ void handleRequest(int canfd, char* buf) {
         frame.can_id = LOCK_DOOR_ID;
         frame.can_dlc = 8;
         memset(frame.data, 0x00, sizeof(frame.data));
+    } else if (!strcmp("/unlock-door", buf)) {
+        frame.can_id = UNLOCK_DOOR_ID;
+        frame.can_dlc = 8;
+        memset(frame.data, 0x00, sizeof(frame.data));
     } else {
         fprintf(stderr, "not match request error\n");
         return;
