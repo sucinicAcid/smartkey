@@ -1,6 +1,6 @@
 #include "can.h"
 
-int getCANfd(void) {
+int getCANfd(char* name) {
     struct sockaddr_can addr;
     struct ifreq ifr;
     struct can_frame frame;
@@ -12,7 +12,7 @@ int getCANfd(void) {
         exit(1);
     }
 
-    strcpy(ifr.ifr_name, "vcanMainECU");
+    strcpy(ifr.ifr_name, name);
     if (ioctl(s, SIOCGIFINDEX, &ifr) < 0) {
         perror("ioctl error");
         exit(1);

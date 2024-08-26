@@ -17,6 +17,6 @@
 
 #define POSITIVE_RESPONSE 100
 
-int getCANfd(void);
+int getCANfd(char* name);
 
 #endif

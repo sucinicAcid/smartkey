@@ -16,7 +16,7 @@ int main(void) {
     sleep(5);
 
     // can통신을 위한 file descriptor 만들기
-    canfd = getCANfd();
+    canfd = getCANfd("vcanMainECU");
 
     // socket으로 요청 받기
     listenfd = open_listenfd();

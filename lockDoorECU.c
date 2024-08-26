@@ -2,30 +2,12 @@
 #include "can.h"
 
 int main(void) {
-    struct sockaddr_can addr;
-    struct ifreq ifr;
-    struct can_frame frame;
     int canfd;
+    struct can_frame frame;
     bool isDoorLocked = true;
 
     // CAN통신 연결
-    canfd = socket(PF_CAN, SOCK_RAW, CAN_RAW);
-    if (canfd < 0) {
-        perror("socket error");
-        exit(1);
-    }
-
-    strcpy(ifr.ifr_name, "vcanLockDoorECU");
-    if (ioctl(canfd, SIOCGIFINDEX, &ifr) < 0) {
-        perror("ioctl error");
-        exit(1);
-    }
-    addr.can_family = AF_CAN;
-    addr.can_ifindex = ifr.ifr_ifindex;
-    if (bind(canfd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
-        perror("bind error");
-        exit(1);
-    }
+    canfd = getCANfd("vcanLockDoorECU");
 
 
     // ECU 작동 상태
