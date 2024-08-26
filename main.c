@@ -53,6 +53,10 @@ void handleRequest(int canfd, char* buf) {
         frame.can_id = START_CAR_ID;
         frame.can_dlc = 8;
         memset(frame.data, 0x00, sizeof(frame.data));
+    } else if (!strcmp("/stop-car", buf)) {
+        frame.can_id = STOP_CAR_ID;
+        frame.can_dlc = 8;
+        memset(frame.data, 0x00, sizeof(frame.data));
     } else {
         fprintf(stderr, "not match request error\n");
         return;

@@ -20,6 +20,13 @@ int main(void) {
             frame.can_dlc = 8;
             memset(frame.data, 0x02, sizeof(frame.data));
             Write(canfd, &frame, sizeof(frame));
+        } else if (frame.can_id == STOP_CAR_ID) {
+            isCarStarted = false;
+
+            frame.can_id = POSITIVE_RESPONSE;
+            frame.can_dlc = 8;
+            memset(frame.data, 0x02, sizeof(frame.data));
+            Write(canfd, &frame, sizeof(frame));
         }
     }
 }
