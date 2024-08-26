@@ -12,6 +12,10 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
+#define LOCK_DOOR_ID    1
+
+#define POSITEIVE_RESPONSE -1
+
 int getCANfd(void);
 
 #endif
