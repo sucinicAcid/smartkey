@@ -21,7 +21,7 @@ int open_listenfd(void) {
 void Getnameinfo(struct sockaddr* sockaddr, socklen_t socklen, char* host, 
                  size_t hostlen, char* port, size_t portlen, int flags) {
 	if (getnameinfo(sockaddr, socklen, host, hostlen, port, portlen, flags) != 0) {
-		perror("getnameinfo error: ");
+		perror("getnameinfo error");
 		exit(1);
 	}
 }
@@ -29,7 +29,7 @@ void Getnameinfo(struct sockaddr* sockaddr, socklen_t socklen, char* host,
 int Socket(int domain, int type, int protocol) {
     int n;
     if ((n = socket(domain, type, protocol)) < 0) {
-		perror("socket error: ");
+		perror("socket error");
 		exit(1);
 	}
     return n;
@@ -37,21 +37,21 @@ int Socket(int domain, int type, int protocol) {
 
 void Setsockopt(int listenfd, int level, int optname, int* optval, int optlen) {
     if (setsockopt(listenfd, level, optname, optval, optlen) < 0) {
-		perror("setsockopt error: ");
+		perror("setsockopt error");
 		exit(1);
 	}
 }
 
 void Bind(int listenfd, struct sockaddr* serveraddr, int serveraddrlen) {
 	if (bind(listenfd, serveraddr, serveraddrlen) < 0) {
-		perror("bind error: ");
+		perror("bind error");
 		exit(1);
 	}
 }
 
 void Listen(int listenfd, int listenq) {
 	if (listen(listenfd, listenq) < 0) {
-		perror("listen error: ");
+		perror("listen error");
 		exit(1);
 	}
 }
@@ -59,8 +59,24 @@ void Listen(int listenfd, int listenq) {
 int Accept(int listenfd, struct sockaddr *clientaddr, socklen_t* clientlen) {
 	int n;
 	if ((n = accept(listenfd, clientaddr, clientlen)) < 0) {
-		perror("accept error: ");
+		perror("accept error");
 		exit(1);
 	}
 	return n;
+}
+
+void Read(int fd, void* buf, int size) {
+	if (read(fd, buf, size) < 0) {
+        perror("read error");
+        close(fd);
+        exit(1);
+    }
+}
+
+void Write(int fd, void* buf, int size) {
+	if (write(fd, buf, size) < 0) {
+        perror("write error");
+        close(fd);
+        exit(1);
+    }
 }

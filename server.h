@@ -24,4 +24,7 @@ void Bind(int listenfd, struct sockaddr* serveraddr, int serveraddrlen);
 void Listen(int listenfd, int listenq);
 int Accept(int listenfd, struct sockaddr *clientaddr, socklen_t* clientlen);
 
+void Read(int fd, void* buf, int size);
+void Write(int fd, void* buf, int size);
+
 #endif
