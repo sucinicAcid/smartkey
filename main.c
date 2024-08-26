@@ -13,6 +13,7 @@ int main(void) {
 
     // ECU 작동 시작
     startECU("lockDoorECU");
+    startECU("startCarECU");
     sleep(5);
 
     // can통신을 위한 file descriptor 만들기
@@ -46,6 +47,10 @@ void handleRequest(int canfd, char* buf) {
         memset(frame.data, 0x00, sizeof(frame.data));
     } else if (!strcmp("/unlock-door", buf)) {
         frame.can_id = UNLOCK_DOOR_ID;
+        frame.can_dlc = 8;
+        memset(frame.data, 0x00, sizeof(frame.data));
+    } else if (!strcmp("/start-car", buf)) {
+        frame.can_id = START_CAR_ID;
         frame.can_dlc = 8;
         memset(frame.data, 0x00, sizeof(frame.data));
     } else {

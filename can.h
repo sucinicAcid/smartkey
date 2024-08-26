@@ -14,6 +14,7 @@
 
 #define LOCK_DOOR_ID    1
 #define UNLOCK_DOOR_ID  2
+#define START_CAR_ID    3
 
 #define POSITIVE_RESPONSE 100
 

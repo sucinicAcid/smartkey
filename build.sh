@@ -18,16 +18,24 @@ function create_vcan_interface() {
 # vcan 인터페이스 생성 (기존에 존재하면 삭제 후 재생성)===========
 create_vcan_interface "vcanMainECU"
 create_vcan_interface "vcanLockDoorECU"
+create_vcan_interface "vcanStartCarECU"
 
 
 echo "인터페이스를 활성화합니다."
 sudo ifconfig vcanMainECU up
 sudo ifconfig vcanLockDoorECU up
+sudo ifconfig vcanStartCarECU up
 
 
 echo "can 게이트웨이를 설정합니다."
-sudo cangw -A -s vcanLockDoorECU -d vcanMainECU -e
 sudo cangw -A -s vcanMainECU -d vcanLockDoorECU -e
+sudo cangw -A -s vcanLockDoorECU -d vcanMainECU -e
+
+sudo cangw -A -s vcanMainECU -d vcanStartCarECU -e
+sudo cangw -A -s vcanStartCarECU -d vcanMainECU -e
+
+sudo cangw -A -s vcanLockDoorECU -d vcanStartCarECU -e
+sudo cangw -A -s vcanStartCarECU -d vcanLockDoorECU -e
 
 echo -e "vcan 인터페이스 설정 완료!\n"
 # ============================================================
@@ -37,6 +45,7 @@ echo -e "vcan 인터페이스 설정 완료!\n"
 echo "소스 파일을 컴파일합니다."
 gcc -o main main.c server.c can.c
 gcc -o lockDoorECU lockDoorECU.c server.c can.c
+gcc -o startCarECU startCarECU.c server.c can.c
 
 echo -e "컴파일 완료!\n"
 # ============================================================
